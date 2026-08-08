@@ -1,0 +1,49 @@
+# ===========================================================================
+#  __  __ _                            __ _      _    ___
+# |  \/  (_)_ __   ___  ___ _ __ __ _ / _| |_   / \  |_ _|
+# | |\/| | | '_ \ / _ \/ __| '__/ _` | |_| __| / _ \  | |
+# | |  | | | | | |  __/ (__| | | (_| |  _| |_ / ___ \ | |
+# |_|  |_|_|_| |_|\___|\___|_|  \__,_|_|  \__/_/   \_\___|
+# ===========================================================================
+# Report Plugin: https://github.com/Kylan1940/MinecraftAI/issues/new
+# ===========================================================================
+# Github: https://github.com/Kylan1940
+# Website: https://kylan1940.netlify.app
+# ===========================================================================
+
+# MinecraftAI CONFIGURATION
+#
+# HELP:
+# & for color and special symbols
+# %name% for the name of AI
+
+# Config Version
+# DON'T CHANGE THIS!!!
+config-version: 1
+
+# Prefix
+prefix: "&b%name% &7» "
+
+# AI Name
+name: "James"
+
+# AI Model
+# DON'T CHANGE MODEL IF YOU DON'T KNOW WHAT YOU DO
+# Follow the instructions to get your API_KEY:
+#
+ai:
+  model: "gemini-3.5-flash-lite"
+  API_KEY: "YOUR_GEMINI_API_KEY"
+  max-response-length: 500
+  cooldown: 3
+
+message:
+  usage: "%prefix%&7Use: &f/ai <start|end|status>"
+  ai-enabled: "%prefix%&aAI mode enabled."
+  ai-disabled: "%prefix%&cAI mode disabled."
+  ai-status: "%prefix%&7AI mode: %status%"
+  thinking: "%prefix%&7Thinking..."
+  no-api-key: "%prefix%&cAPI key has not been configured."
+  cooldown: "%prefix%&cPlease wait &e%seconds% seconds&c."
+  error: "%prefix%&cAI Failed to get a response from AI."
+  response: "%prefix%&f%response%"

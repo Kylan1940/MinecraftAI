@@ -1,0 +1,10 @@
+name: MinecraftAI
+version: '1.0.0'
+main: org.kylan1940.minecraftai.MinecraftAI
+api-version: '1.21'
+author: Kylan1940
+
+commands:
+  ai:
+    description: Control MinecraftAI
+    usage: /ai <start|stop|status>
