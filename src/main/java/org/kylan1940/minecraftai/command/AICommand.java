@@ -16,25 +16,15 @@ public class AICommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(
-            CommandSender sender,
-            Command command,
-            String label,
-            String[] args
-    ) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(
-                    "This command can only be used by players."
-            );
+            sender.sendMessage("This command can only be used by players.");
             return true;
         }
 
         if (args.length == 0) {
-            MessageUtil.send(
-                    player,
-                    "message.usage"
-            );
+            MessageUtil.send(player, "message.usage");
             return true;
         }
 
@@ -48,10 +38,8 @@ public class AICommand implements CommandExecutor {
 
                 chatListener.enable(player);
 
-                MessageUtil.send(
-                        player,
-                        "message.ai-enabled"
-                );
+                MessageUtil.send(player, "message.ai-enabled");
+
             }
 
             case "end", "stop" -> {
@@ -62,10 +50,8 @@ public class AICommand implements CommandExecutor {
 
                 chatListener.disable(player);
 
-                MessageUtil.send(
-                        player,
-                        "message.ai-disabled"
-                );
+                MessageUtil.send(player, "message.ai-disabled");
+
             }
 
             case "status" -> {
@@ -74,21 +60,14 @@ public class AICommand implements CommandExecutor {
                         chatListener.isEnabled(player);
 
                 MessageUtil.send(
-                        player,
-                        "message.ai-status",
-                        "%status%",
-                        enabled
-                                ? "&aEnabled"
-                                : "&cDisabled"
+                        player, "message.ai-status", "%status%",
+                        enabled ? "&aEnabled" : "&cDisabled"
                 );
+
             }
 
             default -> {
-
-                MessageUtil.send(
-                        player,
-                        "message.usage"
-                );
+                MessageUtil.send(player, "message.usage");
             }
         }
 

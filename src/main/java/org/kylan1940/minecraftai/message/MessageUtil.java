@@ -52,33 +52,19 @@ public final class MessageUtil {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    public static void sendActionBar(
-            Player player,
-            String path,
-            String... placeholders
-    ) {
-        String message = MinecraftAI.getInstance()
-                .getConfig()
-                .getString(path);
+    public static void sendActionBar(Player player, String path, String... placeholders) {
+
+        String message = MinecraftAI.getInstance().getConfig().getString(path);
 
         if (message == null || message.isEmpty()) {
             return;
         }
 
-        player.sendActionBar(
-                color(
-                        replace(
-                                message,
-                                placeholders
-                        )
-                )
-        );
+        player.sendActionBar(color(replace(message, placeholders)));
+
     }
 
-    public static void broadcast(
-            String path,
-            String... placeholders
-    ) {
+    public static void broadcast(String path, String... placeholders) {
 
         List<String> messages =
                 MinecraftAI.getInstance()
@@ -87,37 +73,20 @@ public final class MessageUtil {
 
         if (messages.isEmpty()) {
 
-            String message =
-                    MinecraftAI.getInstance()
-                            .getConfig()
-                            .getString(path);
+            String message = MinecraftAI.getInstance().getConfig().getString(path);
 
             if (message == null || message.isEmpty()) {
                 return;
             }
 
-            Bukkit.broadcastMessage(
-                    color(
-                            replace(
-                                    message,
-                                    placeholders
-                            )
-                    )
-            );
+            Bukkit.broadcastMessage(color(replace(message, placeholders)));
 
             return;
         }
 
         for (String message : messages) {
 
-            Bukkit.broadcastMessage(
-                    color(
-                            replace(
-                                    message,
-                                    placeholders
-                            )
-                    )
-            );
+            Bukkit.broadcastMessage(color(replace(message, placeholders)));
         }
     }
 

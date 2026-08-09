@@ -33,34 +33,26 @@ public class ChatListener implements Listener {
             return;
         }
 
-        String message =
-                PlainTextComponentSerializer
-                        .plainText()
-                        .serialize(
-                                event.message()
-                        );
+        String message = PlainTextComponentSerializer.plainText().serialize(event.message());
 
         aiService.ask(player, message);
     }
 
     public void enable(Player player) {
 
-        enabledPlayers.add(
-                player.getUniqueId()
-        );
+        enabledPlayers.add(player.getUniqueId());
+
     }
 
     public void disable(Player player) {
 
-        enabledPlayers.remove(
-                player.getUniqueId()
-        );
+        enabledPlayers.remove(player.getUniqueId());
+
     }
 
     public boolean isEnabled(Player player) {
 
-        return enabledPlayers.contains(
-                player.getUniqueId()
-        );
+        return enabledPlayers.contains(player.getUniqueId());
+
     }
 }

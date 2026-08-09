@@ -75,11 +75,7 @@ public class AIService {
 
                 requestBody.add("contents", contents);
 
-                String url =
-                        "https://generativelanguage.googleapis.com/v1beta/models/"
-                                + model
-                                + ":generateContent?key="
-                                + apiKey;
+                String url = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + apiKey;
 
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create(url))
@@ -105,23 +101,15 @@ public class AIService {
 
                 if (response.statusCode() != 200) {
 
-                    plugin.getLogger().warning(
-                            "Gemini API error: "
-                                    + response.statusCode()
-                    );
+                    plugin.getLogger().warning("Gemini API error: " + response.statusCode());
 
-                    plugin.getLogger().warning(
-                            response.body()
-                    );
+                    plugin.getLogger().warning(response.body());
 
                     sendError(player);
                     return;
                 }
 
-                JsonObject json =
-                        JsonParser
-                                .parseString(response.body())
-                                .getAsJsonObject();
+                JsonObject json = JsonParser.parseString(response.body()).getAsJsonObject();
 
                 String answer = json
                         .getAsJsonArray("candidates")
@@ -138,10 +126,7 @@ public class AIService {
 
             } catch (Exception exception) {
 
-                plugin.getLogger().warning(
-                        "Failed to request AI: "
-                                + exception.getMessage()
-                );
+                plugin.getLogger().warning("Failed to request AI: " + exception.getMessage());
 
                 sendError(player);
             }
@@ -153,11 +138,7 @@ public class AIService {
         Bukkit.getScheduler().runTask(
                 plugin,
                 () -> {
-                    MessageUtil.broadcast(
-                            "message.response",
-                            "%response%",
-                            answer
-                    );
+                    MessageUtil.broadcast("message.response", "%response%", answer);
                 }
         );
     }
@@ -167,10 +148,7 @@ public class AIService {
         Bukkit.getScheduler().runTask(
                 plugin,
                 () -> {
-                    MessageUtil.sendActionBar(
-                            player,
-                            "message.error"
-                    );
+                    MessageUtil.sendActionBar(player, "message.error");
                 }
         );
     }
