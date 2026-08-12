@@ -6,14 +6,14 @@ import com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.kylan1940.minecraftai.MinecraftAI;
+import org.kylan1940.minecraftai.message.MessageUtil;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-
-import org.kylan1940.minecraftai.message.MessageUtil;
 
 public class AIService {
 
@@ -42,12 +42,16 @@ public class AIService {
 
             try {
 
+                Conversation conversation = MinecraftAI.getInstance().getConversationManager().get(player.getUniqueId());
+
                 JsonObject requestBody = new JsonObject();
 
-                JsonArray contents = new JsonArray();
-                JsonObject content = new JsonObject();
+                JsonArray contents = conversation.toJson();
+
+                JsonObject currentMessage = new JsonObject();
 
                 JsonArray parts = new JsonArray();
+
                 JsonObject textPart = new JsonObject();
 
                 String prompt = """
@@ -70,8 +74,10 @@ public class AIService {
                 textPart.addProperty("text", prompt);
 
                 parts.add(textPart);
-                content.add("parts", parts);
-                contents.add(content);
+
+                currentMessage.addProperty("role", "user");
+                currentMessage.add("parts", parts);
+                contents.add(currentMessage);
 
                 requestBody.add("contents", contents);
 
@@ -111,16 +117,24 @@ public class AIService {
 
                 JsonObject json = JsonParser.parseString(response.body()).getAsJsonObject();
 
-                String answer = json
-                        .getAsJsonArray("candidates")
-                        .get(0)
-                        .getAsJsonObject()
-                        .getAsJsonObject("content")
-                        .getAsJsonArray("parts")
-                        .get(0)
-                        .getAsJsonObject()
-                        .get("text")
-                        .getAsString();
+                String answer =
+                        json.getAsJsonArray("candidates")
+                                .get(0)
+                                .getAsJsonObject()
+                                .getAsJsonObject("content")
+                                .getAsJsonArray("parts")
+                                .get(0)
+                                .getAsJsonObject()
+                                .get("text")
+                                .getAsString();
+
+                conversation.addUserMessage(
+                        question
+                );
+
+                conversation.addModelMessage(
+                        answer
+                );
 
                 sendAnswer(answer);
 

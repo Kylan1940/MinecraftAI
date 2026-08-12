@@ -2,57 +2,72 @@ package org.kylan1940.minecraftai.listener;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import io.papermc.paper.event.player.AsyncChatEvent;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.kylan1940.minecraftai.MinecraftAI;
+import org.kylan1940.minecraftai.ai.AIManager;
 import org.kylan1940.minecraftai.ai.AIService;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 
 public class ChatListener implements Listener {
 
+    private final MinecraftAI plugin;
+    private final AIManager aiManager;
     private final AIService aiService;
 
-    private final Set<UUID> enabledPlayers =
-            new HashSet<>();
-
-    public ChatListener(AIService aiService) {
+    public ChatListener(
+            MinecraftAI plugin,
+            AIManager aiManager,
+            AIService aiService
+    ) {
+        this.plugin = plugin;
+        this.aiManager = aiManager;
         this.aiService = aiService;
     }
 
-    @EventHandler
-    public void onChat(AsyncChatEvent event) {
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onChat(AsyncPlayerChatEvent event) {
 
-        Player player = event.getPlayer();
-
-        if (!enabledPlayers.contains(
-                player.getUniqueId()
-        )) {
+        if (event.isCancelled()) {
             return;
         }
 
-        String message = PlainTextComponentSerializer.plainText().serialize(event.message());
+        if (!aiManager.isEnabled()) {
+            return;
+        }
 
-        aiService.ask(player, message);
-    }
+        Player player = event.getPlayer();
+        String message = event.getMessage();
+        String mode = aiManager.getMode();
 
-    public void enable(Player player) {
+        switch (mode) {
 
-        enabledPlayers.add(player.getUniqueId());
+            case "public" -> {
+                aiService.ask(player, message);
+            }
 
-    }
+            case "mention" -> {
+                String aiName = plugin.getConfig().getString("name", "James");
 
-    public void disable(Player player) {
+                if (!message.toLowerCase().contains(aiName.toLowerCase())) {
+                    return;
+                }
+                aiService.ask(player, message);
 
-        enabledPlayers.remove(player.getUniqueId());
+            }
 
-    }
+            case "private" -> {
 
-    public boolean isEnabled(Player player) {
+                if (!aiManager.isPrivatePlayer(player)) {
+                    return;
+                }
 
-        return enabledPlayers.contains(player.getUniqueId());
+                aiService.ask(player, message);
+            }
 
+            default -> {
+                plugin.getLogger().warning("Unknown AI mode: " + mode);
+            }
+        }
     }
 }

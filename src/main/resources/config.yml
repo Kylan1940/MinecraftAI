@@ -1,12 +1,11 @@
 # ===========================================================================
-#  __   __ _                    ______
-# |  \/  (_)              /\   |_   _|
-# | \  / |_ _ __   ___   /  \    | |
-# | |\/| | | '_ \ / _ \ / /\ \   | |
-# | |  | | | | | |  __// ____ \ _| |_
-# |_|  |_|_|_| |_|\___/_/    \_\_____|
+#  __  __ _                            __ _      _    ___
+# |  \/  (_)_ __   ___  ___ _ __ __ _ / _| |_   / \  |_ _|
+# | |\/| | | '_ \ / _ \/ __| '__/ _` | |_| __| / _ \  | |
+# | |  | | | | | |  __/ (__| | | (_| |  _| |_ / ___ \ | |
+# |_|  |_|_|_| |_|\___|\___|_|  \__,_|_|  \__/_/   \_\___|
 # ===========================================================================
-# Report Plugin: https://github.com/Kylan1940/MineAI/issues/new
+# Report Plugin: https://github.com/Kylan1940/MinecraftAI/issues/new
 # ===========================================================================
 # Github: https://github.com/Kylan1940
 # Website: https://kylan1940.netlify.app
@@ -29,22 +28,31 @@ prefix: "&b%name% &7» "
 name: "James"
 
 # AI Model
-# DON'T CHANGE MODEL IF YOU DON'T KNOW WHAT YOU DO
-# Follow the instructions to get your API_KEY:
-#
 ai:
+  # DON'T CHANGE MODEL IF YOU DON'T KNOW WHAT YOU DO
   model: "gemini-3.5-flash-lite"
+  # Follow the instructions to get your API_KEY:
+  # https://github.com/Kylan1940/MinecraftAI/wiki/How-to-Create-API_KEY
   API_KEY: "YOUR_GEMINI_API_KEY"
+  # Maximum AI response length
   max-response-length: 500
+  # Cooldown between AI requests
   cooldown: 3
+  mode: "mention"
+  # History Limit
+  conversation:
+    max-messages: 20
 
 message:
-  usage: "%prefix%&7Use: &f/ai <start|end|status>"
   ai-enabled: "%prefix%&aAI mode enabled."
   ai-disabled: "%prefix%&cAI mode disabled."
-  ai-status: "%prefix%&7AI mode: %status%"
-  thinking: "%prefix%&7Thinking..."
-  no-api-key: "%prefix%&cAPI key has not been configured."
-  cooldown: "%prefix%&cPlease wait &e%seconds% seconds&c."
-  error: "%prefix%&cAI Failed to get a response from AI."
-  response: "%prefix%&f%response%"
+  already-enabled: "%prefix%&eAI is already enabled."
+  already-disabled: "%prefix%&eAI is already disabled."
+  player-only: "%prefix%&cThis command can only be used by players."
+  usage: "%prefix%&7Use: &f/ai <start|stop|status|mode|clear>"
+  status: "%prefix%&7Status: %status% &8| &7Mode: %mode%"
+  mode-usage: "%prefix%&7Use: &f/ai mode <public|mention|private>"
+  invalid-mode: "%prefix%&cInvalid mode. Available: public, mention, private."
+  mode-changed: "%prefix%&aAI mode changed to &e%mode%&a."
+  conversation-cleared: "%prefix%&aYour conversation history has been cleared."
+  unknown-command: "%prefix%&cUnknown subcommand."

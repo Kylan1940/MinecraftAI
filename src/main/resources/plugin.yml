@@ -7,4 +7,4 @@ author: Kylan1940
 commands:
   ai:
     description: Control MinecraftAI
-    usage: /ai <start|stop|status>
+    usage: /ai <start|stop|status|mode|clear>
