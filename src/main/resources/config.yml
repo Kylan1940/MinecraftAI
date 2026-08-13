@@ -38,7 +38,6 @@ ai:
   max-response-length: 500
   # Cooldown between AI requests
   cooldown: 3
-  mode: "mention"
   # History Limit
   conversation:
     max-messages: 20
@@ -56,3 +55,8 @@ message:
   mode-changed: "%prefix%&aAI mode changed to &e%mode%&a."
   conversation-cleared: "%prefix%&aYour conversation history has been cleared."
   unknown-command: "%prefix%&cUnknown subcommand."
+  thinking: "%prefix%&7Thinking..."
+  no-api-key: "%prefix%&cAPI key has not been configured."
+  cooldown: "%prefix%&cPlease wait &e%seconds% seconds&c."
+  error: "%prefix%&cAI Failed to get a response from AI."
+  response: "%prefix%&f%response%"

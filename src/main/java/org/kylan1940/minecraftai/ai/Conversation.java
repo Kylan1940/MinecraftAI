@@ -13,11 +13,11 @@ public class Conversation {
     private final List<Message> messages = new ArrayList<>();
 
     public void addUserMessage(String message) {
-        messages.add(new Message("user", message));
+        addMessage("user", message);
     }
 
     public void addModelMessage(String message) {
-        messages.add(new Message("model", message));
+        addMessage("model", message);
     }
 
     private void addMessage(String role, String text) {
