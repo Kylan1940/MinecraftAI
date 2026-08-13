@@ -8,3 +8,11 @@ commands:
   ai:
     description: Control MinecraftAI
     usage: /ai <start|stop|status|mode|clear>
+
+permissions:
+  minecraftai.command:
+    description: Allows the player to use MinecraftAI commands.
+    default: true
+  minecraftai.execute:
+    description: Allows MinecraftAI to execute commands for the player.
+    default: op

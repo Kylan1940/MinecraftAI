@@ -16,6 +16,11 @@
 # HELP:
 # & for color and special symbols
 # %name% for the name of AI
+# %prefix% for the configured message prefix
+# %response% for the AI response
+# %seconds% for the remaining cooldown in seconds
+# %status% for the current AI status
+# %mode% for the current AI mode
 
 # Config Version
 # DON'T CHANGE THIS!!!
@@ -38,10 +43,25 @@ ai:
   max-response-length: 500
   # Cooldown between AI requests
   cooldown: 3
-  mode: "mention"
   # History Limit
   conversation:
     max-messages: 20
+  # Allow AI to execute commands
+  commands:
+    # If true, AI can execute commands. If false, AI can't execute comamnds.
+    enabled: true
+    # Which commands can AI execute. You must enable AI commands execute.
+    allowed:
+      - tp
+      - give
+      - kill
+      - weather
+      - time
+      - healall
+      - feedall
+      - heal
+      - feed
+
 
 message:
   ai-enabled: "%prefix%&aAI mode enabled."
@@ -56,3 +76,14 @@ message:
   mode-changed: "%prefix%&aAI mode changed to &e%mode%&a."
   conversation-cleared: "%prefix%&aYour conversation history has been cleared."
   unknown-command: "%prefix%&cUnknown subcommand."
+  thinking: "%prefix%&7Thinking..."
+  no-api-key: "%prefix%&cAPI key has not been configured."
+  cooldown: "%prefix%&cPlease wait &e%seconds% seconds&c."
+  error: "%prefix%&cAI Failed to get a response from AI."
+  response: "%prefix%&f%response%"
+
+  command-disabled: "%prefix%&cAI commands are disabled."
+  command-no-permission: "%prefix%&cYou don't have permission to use AI commands."
+  command-not-allowed: "%prefix%&cThat command is not allowed."
+  command-invalid: "%prefix%&cThe AI generated an invalid command."
+  command-failed: "%prefix%&cThe command could not be executed."

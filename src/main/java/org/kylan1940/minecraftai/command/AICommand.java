@@ -1,5 +1,6 @@
 package org.kylan1940.minecraftai.command;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,6 +33,10 @@ public class AICommand implements CommandExecutor {
         if (!(sender instanceof Player player)) {
             MessageUtil.send(sender, "message.player-only");
             return true;
+        }
+
+        if (!player.hasPermission("minecraftai.command")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission.");
         }
 
         if (args.length == 0) {

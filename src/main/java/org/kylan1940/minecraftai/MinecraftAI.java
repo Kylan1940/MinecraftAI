@@ -2,6 +2,7 @@ package org.kylan1940.minecraftai;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.kylan1940.minecraftai.ai.AIService;
+import org.kylan1940.minecraftai.ai.CooldownManager;
 import org.kylan1940.minecraftai.command.AICommand;
 import org.kylan1940.minecraftai.listener.ChatListener;
 import org.kylan1940.minecraftai.utils.ConfigUpdater;
@@ -15,6 +16,7 @@ public final class MinecraftAI extends JavaPlugin {
     private ChatListener chatListener;
     private ConversationManager conversationManager;
     private AIManager aiManager;
+    private CooldownManager cooldownManager;
 
     @Override
     public void onEnable() {
@@ -27,6 +29,7 @@ public final class MinecraftAI extends JavaPlugin {
         aiManager = new AIManager();
         conversationManager = new ConversationManager();
         aiService = new AIService(this);
+        cooldownManager = new CooldownManager(this);
 
         chatListener = new ChatListener(this, aiManager, aiService);
 
@@ -61,6 +64,10 @@ public final class MinecraftAI extends JavaPlugin {
 
     public ChatListener getChatListener() {
         return chatListener;
+    }
+
+    public CooldownManager getCooldownManager() {
+        return cooldownManager;
     }
 
 }
