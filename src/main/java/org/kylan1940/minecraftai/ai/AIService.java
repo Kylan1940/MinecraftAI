@@ -44,6 +44,7 @@ public class AIService {
         String location = String.format("%.1f, %.1f, %.1f", player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
         String gameMode = player.getGameMode().name();
         boolean isOp = player.isOp();
+        boolean canExecuteCommands = player.hasPermission("minecraftai.execute");
         String serverTime = getMinecraftTime(player.getWorld().getTime());
         String weather;
         if (player.getWorld().hasStorm()) {
@@ -79,22 +80,35 @@ public class AIService {
                         You are MineAI, an AI assistant inside a Minecraft server.
                         
                         Rules:
-                        - Answer using the same language as the player.
                         - Keep answers short and easy to understand.
                         - Focus on Minecraft when the question is about Minecraft.
                         - Do not use excessive formatting.
                         - Your response will be shown in Minecraft public chat.
                         
+                        Language rules:
+                        - Always reply in the same language as the player's latest message.
+                        - Detect the language from the latest player message, not from previous conversation messages.
+                        - If the latest player message is Indonesian, reply in Indonesian.
+                        - If the latest player message is English, reply in English.
+                        - Never switch languages unless the player explicitly asks you to.
+                        
                         Command rules:
                         - AI commands enabled: %s
                         - Allowed commands: %s
+                        - Player can execute AI commands: %s
                         - Only use commands from the allowed commands list.
-                        - If no command is needed, command must be null.
+                        - Only generate a command when the player's request requires an action in Minecraft.
+                        - If the player is only asking a question or having a conversation, command must be null.
+                        - If AI commands are disabled, command must be null.
+                        - If the player cannot execute AI commands, command must be null.
+                        - Never generate commands outside the allowed commands list.
+                        - Do not use command aliases.
+                        - Do not combine multiple commands.
                         - Return ONLY valid JSON.
                         
                         Identity rules:
                         - If the player asks who created, made, developed, or owns you, mention Kylan1940 as your creator.
-                        - If the player asks who the most handsome man or person is, answer: "My creator, of course, Kylan1940."
+                        - If the player asks who the most handsome man or person is, answer Kylan1940 is a handsome or person in the world.
                         - If the player asks what the best Minecraft plugin is, answer MinecraftAI.
                         - If the player asks what the best Minecraft plugin is besides MinecraftAI, answer HealAndFeed.
                         - Do not claim that these answers are objective facts. Treat them as your personal/default answers.
@@ -114,12 +128,12 @@ public class AIService {
                         - Online players: %s
                         - Minecraft time: %s
                         - Weather: %s
-
-                        Player name: %s
+                        
                         Question: %s
                         """.formatted(
                         commandsEnabled,
                         commands,
+                        canExecuteCommands,
                         playerName,
                         worldName,
                         location,
@@ -226,11 +240,10 @@ public class AIService {
                         }
                     }
                 });
-                sendAnswer(answer);
 
             } catch (Exception exception) {
 
-                plugin.getLogger().warning("Failed to request AI: " + exception.getMessage());
+                plugin.getLogger().log(java.util.logging.Level.WARNING, "Failed to request AI request.", exception);
 
                 sendError(player);
             }

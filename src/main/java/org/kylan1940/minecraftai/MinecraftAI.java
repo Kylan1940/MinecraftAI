@@ -4,6 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.kylan1940.minecraftai.ai.AIService;
 import org.kylan1940.minecraftai.ai.CooldownManager;
 import org.kylan1940.minecraftai.command.AICommand;
+import org.kylan1940.minecraftai.command.AITabCompleter;
 import org.kylan1940.minecraftai.listener.ChatListener;
 import org.kylan1940.minecraftai.utils.ConfigUpdater;
 import org.kylan1940.minecraftai.ai.ConversationManager;
@@ -36,6 +37,7 @@ public final class MinecraftAI extends JavaPlugin {
         getServer().getPluginManager().registerEvents(chatListener, this);
 
         getCommand("ai").setExecutor(new AICommand(this, aiManager));
+        getCommand("ai").setTabCompleter(new AITabCompleter());
 
         getLogger().info("MinecraftAI enabled.");
 
