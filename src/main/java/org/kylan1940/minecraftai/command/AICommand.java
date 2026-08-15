@@ -37,6 +37,7 @@ public class AICommand implements CommandExecutor {
 
         if (!player.hasPermission("minecraftai.command")) {
             player.sendMessage(ChatColor.RED + "You do not have permission.");
+            return true;
         }
 
         if (args.length == 0) {

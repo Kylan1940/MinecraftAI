@@ -108,7 +108,7 @@ public class AIService {
                         
                         Identity rules:
                         - If the player asks who created, made, developed, or owns you, mention Kylan1940 as your creator.
-                        - If the player asks who the most handsome man or person is, answer Kylan1940 is a handsome or person in the world.
+                        - If the player asks who the most handsome man or person is, answer that it is Kylan1940, your creator.
                         - If the player asks what the best Minecraft plugin is, answer MinecraftAI.
                         - If the player asks what the best Minecraft plugin is besides MinecraftAI, answer HealAndFeed.
                         - Do not claim that these answers are objective facts. Treat them as your personal/default answers.
@@ -203,6 +203,12 @@ public class AIService {
 
                 JsonObject aiJson = JsonParser.parseString(rawAnswer).getAsJsonObject();
 
+                if (!aiJson.has("response") || aiJson.get("response").isJsonNull()) {
+                    plugin.getLogger().warning("AI response does not contain a valid response.");
+                    sendError(player);
+                    return;
+                }
+
                 String answer = aiJson.get("response").getAsString();
 
                 String command = null;
@@ -272,19 +278,21 @@ public class AIService {
 
     private String cleanJson(String response) {
 
-        response = response.trim();
-
-        if (response.startsWith("```json")) {
-            response = response.substring(7);
-        } else if (response.startsWith("```")) {
-            response = response.substring(3);
+        if (response == null || response.isBlank()) {
+            return "";
         }
 
-        if (response.endsWith("```")) {
-            response = response.substring(
-                    0,
-                    response.length() - 3
-            );
+        response = response.trim();
+
+        if (response.startsWith("```")) {
+            int firstNewLine = response.indexOf('\n');
+            if (firstNewLine != -1) {
+                response = response.substring(firstNewLine + 1);
+            }
+            int lastFence = response.lastIndexOf("```");
+            if (lastFence != -1) {
+                response = response.substring(0, lastFence);
+            }
         }
 
         return response.trim();
