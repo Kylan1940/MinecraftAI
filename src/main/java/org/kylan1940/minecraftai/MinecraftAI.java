@@ -9,6 +9,7 @@ import org.kylan1940.minecraftai.listener.ChatListener;
 import org.kylan1940.minecraftai.utils.ConfigUpdater;
 import org.kylan1940.minecraftai.ai.ConversationManager;
 import org.kylan1940.minecraftai.ai.AIManager;
+import org.kylan1940.minecraftai.npc.NPCManager;
 
 public final class MinecraftAI extends JavaPlugin {
 
@@ -18,6 +19,7 @@ public final class MinecraftAI extends JavaPlugin {
     private ConversationManager conversationManager;
     private AIManager aiManager;
     private CooldownManager cooldownManager;
+    private NPCManager npcManager;
 
     @Override
     public void onEnable() {
@@ -31,12 +33,13 @@ public final class MinecraftAI extends JavaPlugin {
         conversationManager = new ConversationManager();
         aiService = new AIService(this);
         cooldownManager = new CooldownManager(this);
+        npcManager = new NPCManager();
 
         chatListener = new ChatListener(this, aiManager, aiService);
 
         getServer().getPluginManager().registerEvents(chatListener, this);
 
-        getCommand("ai").setExecutor(new AICommand(this, aiManager));
+        getCommand("ai").setExecutor(new AICommand(this, aiManager, npcManager));
         getCommand("ai").setTabCompleter(new AITabCompleter());
 
         getLogger().info("MinecraftAI enabled.");
@@ -70,6 +73,10 @@ public final class MinecraftAI extends JavaPlugin {
 
     public CooldownManager getCooldownManager() {
         return cooldownManager;
+    }
+
+    public NPCManager getNpcManager() {
+        return npcManager;
     }
 
 }

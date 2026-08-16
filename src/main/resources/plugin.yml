@@ -1,5 +1,5 @@
 name: MinecraftAI
-version: '1.0.0'
+version: 'DEV-0.1'
 main: org.kylan1940.minecraftai.MinecraftAI
 api-version: '1.21'
 author: Kylan1940
@@ -15,4 +15,7 @@ permissions:
     default: true
   minecraftai.execute:
     description: Allows MinecraftAI to execute commands for the player.
+    default: op
+  minecraftai.npc:
+    description: Manage MinecraftAI NPCs
     default: op

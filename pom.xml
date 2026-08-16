@@ -7,7 +7,7 @@
 
     <groupId>org.kylan1940</groupId>
     <artifactId>MinecraftAI</artifactId>
-    <version>1.0.0</version>
+    <version>DEV-0.1</version>
     <packaging>jar</packaging>
 
     <name>MinecraftAI</name>
