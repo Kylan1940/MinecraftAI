@@ -1,5 +1,9 @@
 package org.kylan1940.minecraftai.npc;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.Villager;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,5 +31,24 @@ public class NPCManager {
 
     public Collection<AINPC> getNPCs() {
         return Collections.unmodifiableCollection(npcs.values());
+    }
+
+    public void loadNPCs() {
+
+        for (World world : Bukkit.getWorlds()) {
+
+            for (Villager villager : world.getEntitiesByClass(Villager.class)) {
+
+                if (!BukkitNPC.isNPC(villager)) {
+                    continue;
+                }
+
+                BukkitNPC npc = BukkitNPC.fromVillager(villager);
+
+                if (npc != null) {
+                    register(npc);
+                }
+            }
+        }
     }
 }

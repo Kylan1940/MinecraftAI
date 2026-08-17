@@ -165,11 +165,12 @@ public class AICommand implements CommandExecutor {
                         AINPC npc = npcManager.get(args[2]);
                         if (npc == null) {
                             player.sendMessage(ChatColor.RED + "NPC " + args[2] + " was not found.");
+                            return  true;
                         }
                         player.sendMessage(ChatColor.GREEN + "NPC: " + npc.getName());
                         player.sendMessage(ChatColor.GRAY + "ID: " + npc.getId());
                         player.sendMessage(ChatColor.GRAY + "World: " + npc.getLocation().getWorld().getName());
-                        player.sendMessage(ChatColor.GRAY + "Location: " + npc.getLocation().getX() + ", " + npc.getLocation().getY() + ", " + npc.getLocation().getZ());
+                        player.sendMessage(ChatColor.GRAY + "Location: " + npc.getLocation().getBlockX() + ", " + npc.getLocation().getBlockY() + ", " + npc.getLocation().getBlockZ());
                         player.sendMessage(ChatColor.GRAY + "Spawned: " + npc.isSpawned());
                     }
                     default ->  player.sendMessage(ChatColor.RED + "Usage: /ai npc <create|remove|list|info>");

@@ -6,6 +6,8 @@ import org.kylan1940.minecraftai.ai.CooldownManager;
 import org.kylan1940.minecraftai.command.AICommand;
 import org.kylan1940.minecraftai.command.AITabCompleter;
 import org.kylan1940.minecraftai.listener.ChatListener;
+import org.kylan1940.minecraftai.listener.NPCListener;
+import org.kylan1940.minecraftai.npc.NPCConversationManager;
 import org.kylan1940.minecraftai.utils.ConfigUpdater;
 import org.kylan1940.minecraftai.ai.ConversationManager;
 import org.kylan1940.minecraftai.ai.AIManager;
@@ -20,6 +22,7 @@ public final class MinecraftAI extends JavaPlugin {
     private AIManager aiManager;
     private CooldownManager cooldownManager;
     private NPCManager npcManager;
+    private NPCConversationManager npcConversationManager;
 
     @Override
     public void onEnable() {
@@ -30,17 +33,22 @@ public final class MinecraftAI extends JavaPlugin {
         ConfigUpdater.update(this);
 
         aiManager = new AIManager();
+        aiManager.enable();
         conversationManager = new ConversationManager();
         aiService = new AIService(this);
         cooldownManager = new CooldownManager(this);
         npcManager = new NPCManager();
+        npcManager.loadNPCs();
+        npcConversationManager = new NPCConversationManager();
 
         chatListener = new ChatListener(this, aiManager, aiService);
+        NPCListener npcListener = new NPCListener(this);
 
         getServer().getPluginManager().registerEvents(chatListener, this);
+        getServer().getPluginManager().registerEvents(npcListener, this);
 
         getCommand("ai").setExecutor(new AICommand(this, aiManager, npcManager));
-        getCommand("ai").setTabCompleter(new AITabCompleter());
+        getCommand("ai").setTabCompleter(new AITabCompleter(this));
 
         getLogger().info("MinecraftAI enabled.");
 
@@ -77,6 +85,10 @@ public final class MinecraftAI extends JavaPlugin {
 
     public NPCManager getNpcManager() {
         return npcManager;
+    }
+
+    public NPCConversationManager getNpcConversationManager() {
+        return npcConversationManager;
     }
 
 }

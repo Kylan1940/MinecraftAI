@@ -1,5 +1,5 @@
 name: MinecraftAI
-version: 'DEV-0.1'
+version: 'DEV-0.2'
 main: org.kylan1940.minecraftai.MinecraftAI
 api-version: '1.21'
 author: Kylan1940
